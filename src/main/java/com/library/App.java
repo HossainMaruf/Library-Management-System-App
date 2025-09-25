@@ -13,12 +13,16 @@ public class App {
         String username = "root";                               // Your DB username
         String password = "";                       // Your DB password
         Database db = new Database(url, username, password);
-        db.connect(); // try to connect
-        Connection conn = db.getConnection();
-        UserDAO userDao = new UserDAO(conn);
-        List<User> users = userDao.getAllUsers();
-        for (User user : users) {
-           System.out.println(user.getName());
-        }
+        if(db.connect() == 1) {
+            // connection succeed 
+            Connection conn = db.getConnection();
+            // UserDAO userDao = new UserDAO(conn);
+            // List<User> users = userDao.getAllUsers();
+            // for (User user : users) {
+            //     System.out.println(user.getName());
+            // }
+        } else {
+            System.out.println("Database may be in offline!");
+        } 
     }
 }

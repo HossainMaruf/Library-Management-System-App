@@ -47,4 +47,31 @@ public class UserDAO {
         }
         return users;
     }
+    
+    public int insertUser(User user) {
+        try {
+            sql = "insert into users (name, email, phone) values (?, ?, ?)";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPhone());
+            return statement.executeUpdate(); // return the number of affected rows
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean isUserExist(String id) {
+        try {
+            sql = "select * from users where id = ?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, id);
+            rs = statement.executeQuery();
+            if(rs.next() == false) return false;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
