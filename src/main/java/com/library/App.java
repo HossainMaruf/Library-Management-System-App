@@ -1,10 +1,11 @@
 package com.library;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.List;
+
 import com.db.Database;
 import com.model.User;
+import com.dao.UserDAO;
 
 public class App {
     public static void main( String[] args ) throws Exception{
@@ -14,17 +15,10 @@ public class App {
         Database db = new Database(url, username, password);
         db.connect(); // try to connect
         Connection conn = db.getConnection();
-        Statement stmt = conn.createStatement();
-        User user = new User(stmt);
-        user.getAll();
-        ResultSet rs = stmt.executeQuery("select * from users");
-        while(rs.next()) {
-            int id = rs.getInt("id");
-            String name = rs.getString("name");
-            System.out.println(id + " " + name);
+        UserDAO userDao = new UserDAO(conn);
+        List<User> users = userDao.getAllUsers();
+        for (User user : users) {
+           System.out.println(user.getName());
         }
-        rs.close();
-        if(stmt != null) stmt.close();
-        if(conn != null) conn.close();
     }
 }
