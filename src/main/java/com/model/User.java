@@ -1,6 +1,7 @@
 package com.model;
 
 public class User {
+   private int id;
    private String name;
    private String email;
    private String phone;
@@ -9,6 +10,11 @@ public class User {
         this.email = email;
         this.phone = phone;
    }
+   public User(int id, String name, String email, String phone){
+        this(name, email, phone);
+        this.id = id;
+   }
+   public int getId() { return id; }
    public String getName() { return name; }
    public String getEmail() { return email; }
    public String getPhone() { return phone; }
