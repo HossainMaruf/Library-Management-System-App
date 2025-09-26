@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.db.Database;
 import com.model.User;
+import com.scene.Librarian;
 import com.dao.UserDAO;
+import com.data.Validator;
 
 public class App {
     public static void main( String[] args ) throws Exception{
@@ -15,12 +17,13 @@ public class App {
         Database db = new Database(url, username, password);
         if(db.connect() == 1) {
             // connection succeed 
-            Connection conn = db.getConnection();
+            // Connection conn = db.getConnection();
             // UserDAO userDao = new UserDAO(conn);
             // List<User> users = userDao.getAllUsers();
             // for (User user : users) {
             //     System.out.println(user.getName());
             // }
+            Librarian librarian = new Librarian("Librarian");
         } else {
             System.out.println("Database may be in offline!");
         } 

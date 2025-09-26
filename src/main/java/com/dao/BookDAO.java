@@ -1,10 +1,5 @@
 package com.dao;
 
-<<<<<<< HEAD
-public class BookDAO {
-    
-}
-=======
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -83,4 +78,3 @@ public class BookDAO {
     }
 }
 
->>>>>>> 2f3ed134ae5142bf1af278e79e0670cdd691e7df
