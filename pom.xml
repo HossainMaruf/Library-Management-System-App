@@ -21,4 +21,23 @@
       <version>8.0.33</version>
   </dependency>
   </dependencies>
+  <build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.11.0</version>
+      <configuration>
+        <excludes>
+          <exclude>**/Librarian.java</exclude>
+          <exclude>**/LibrarianDashboard.java</exclude>
+          <exclude>**/Student.java</exclude>
+          <exclude>**/StudentDashboard.java</exclude>
+          <exclude>**/StudentRegistration.java</exclude>
+        </excludes>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+
 </project>

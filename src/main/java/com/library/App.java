@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.db.Database;
-import com.model.User;
-import com.scene.Librarian;
-import com.dao.UserDAO;
-import com.data.Validator;
+// import com.model.User;
+import com.scene.Home;
+// import com.scene.Librarian;
+// import com.dao.UserDAO;
+// import com.data.Validator;
 
 public class App {
     public static void main( String[] args ) throws Exception{
@@ -23,7 +24,8 @@ public class App {
             // for (User user : users) {
             //     System.out.println(user.getName());
             // }
-            Librarian librarian = new Librarian("Librarian");
+            // Librarian librarian = new Librarian("Librarian");
+            Home home = new Home("Home");
         } else {
             System.out.println("Database may be in offline!");
         } 

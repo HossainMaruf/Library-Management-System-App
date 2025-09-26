@@ -6,24 +6,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class LibrarianLoginForm extends JPanel {
-    private JLabel nameLabel, passwordLabel;
-    private JTextField nameField;
+class StudentRegistrationFormPanel extends JPanel {
+    private JLabel idLabel, nameLabel, passwordLabel;
+    private JTextField idField, nameField;
     private JPasswordField passwordField;
-    private JButton dashBoard;
+    private JButton registerStudent;
 
-    public LibrarianLoginForm() {
+    public StudentRegistrationFormPanel() {
+        idLabel = new JLabel("ID: ");
         nameLabel = new JLabel("Name: ");
         passwordLabel = new JLabel("Password: ");
+        idField = new JTextField(10);
         nameField = new JTextField(10);
         passwordField = new JPasswordField(10);
-        dashBoard = new JButton("DASHBOARD");
+        registerStudent = new JButton("Get");
 
         // Set the border using BorderFactory
-        Border innerBorder = BorderFactory.createTitledBorder("Login");
+        Border innerBorder = BorderFactory.createTitledBorder("Registration");
         Border outerBorder = BorderFactory.createEmptyBorder(5,5,5,5);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-
 
         // Set GridBagLayout
         setLayout(new GridBagLayout());
@@ -36,61 +37,77 @@ class LibrarianLoginForm extends JPanel {
         gc.gridy = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0,0,5,0);
-        add(nameLabel, gc);
+        add(idLabel, gc);
 
         gc.gridx = 1;
         gc.gridy = 0;
         gc.anchor = GridBagConstraints.LINE_START;
-        add(nameField, gc);
+        add(idField, gc);
 
         // Second Row
         gc.gridx = 0;
         gc.gridy = 1;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0,0,5,0);
-        add(passwordLabel, gc);
+        add(nameLabel, gc);
 
         gc.gridx = 1;
         gc.gridy = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        add(passwordField, gc);
+        add(nameField, gc);
 
         // Third Row
+        gc.gridx = 0;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(passwordLabel, gc);
+
         gc.gridx = 1;
         gc.gridy = 2;
         gc.anchor = GridBagConstraints.LINE_END;
-        add(dashBoard, gc);
+        add(passwordField, gc);
 
-        // Add the button event
-        dashBoard.addActionListener(new ActionListener() {
+        // Fourth Row
+        gc.gridx = 1;
+        gc.gridy = 3;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(registerStudent, gc);
+
+        // add button event
+        registerStudent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String id = idField.getText();
                 String name = nameField.getText();
                 String password = passwordField.getText();
-                System.out.println(name + " " + password);
-                // if(DB.isValidLibrarian(name, password)) {
-                    // System.out.println("Valid");
-                    // new LibrarianDashboard("Dashboard");
-                // }
+                String issue = "0";
+                boolean validate = !id.equals("") && !name.equals("") && !password.equals("");
+                if(!DB.isExistStudent(id) && validate) {
+                    DB.storeThisStudent(id, name, password, issue);
+                }
             }
         });
     }
-}
+ }
 
-public class Librarian extends JFrame {
-    private LibrarianLoginForm librarianLoginForm;
-    public Librarian(String title) {
+public class StudentRegistration extends JFrame {
+    private StudentRegistrationFormPanel formPanel;
+
+    public StudentRegistration(String title) {
         // Frame Creation
         super(title);
         setSize(300, 300);
-        setLocation(50, 50);
+        setLocation(350, 250);
 
-        // Creating form panel
-        librarianLoginForm = new LibrarianLoginForm();
+        // Creating some panel
+        formPanel = new StudentRegistrationFormPanel();
 
-        // Grid Layout
-        setLayout(new GridLayout(1,1));
-        add(librarianLoginForm);
+        // Setting the layout
+        setLayout(new GridLayout());
+
+        // Adding Components to the layout
+        add(formPanel);
+
         setVisible(true);
     }
 }
