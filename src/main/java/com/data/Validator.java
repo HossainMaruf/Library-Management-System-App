@@ -1,48 +1,51 @@
 package com.data;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Validator {
-    private String data;
-    List<String> errors = null;
+    private String data, alias;
+    Map<String, String> errors = null;
 
     public Validator() { 
-        errors = new ArrayList<String>();
+        errors = new HashMap<String, String>();
     }
-    public Validator validateText(String text) {
+    public Validator validateText(String text, String alias) {
         this.data = text;
+        this.alias = alias;
         return this;
     }
-    public Validator validateEmail(String email) {
+    public Validator validateEmail(String email, String alias) {
         this.data = email;
+        this.alias = alias;
         // TODO: email validation logic
         return this;
     } 
-    public Validator validatePassword(String password) {
+    public Validator validatePassword(String password, String alias) {
         this.data = password;
+        this.alias = alias;
         return this;
     }
     public Validator min(int minLength) {
         if(data.length() < minLength) {
-            errors.add("Length must be at least " + minLength + " letters");
+            errors.put(alias, "Length must be at least " + minLength + " letters");
         }
         return this;
     }
     public Validator max(int maxLength) {
         if(data.length() > maxLength) {
-            errors.add("Length exceed " + maxLength + " letters");
+            errors.put(alias, "Length exceed " + maxLength + " letters");
         }
         return this;
     }
     public Validator minMax(int minLength, int maxLength) {
         int length = data.length();
         if(!(length >= minLength && length <= maxLength)) {
-            errors.add("Length must be between " + minLength + " to " + maxLength + " letters" );
+            errors.put(alias, "Length must be between " + minLength + " to " + maxLength + " letters" );
         }
         return this;
     }
-    public List<String> getErrors() {
+    public Map<String, String> getErrors() {
         return errors;
     }
 }

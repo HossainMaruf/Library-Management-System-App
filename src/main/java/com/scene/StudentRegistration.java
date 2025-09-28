@@ -5,21 +5,32 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import com.data.Validator;
 
 class StudentRegistrationFormPanel extends JPanel {
-    private JLabel idLabel, nameLabel, passwordLabel;
-    private JTextField idField, nameField;
-    private JPasswordField passwordField;
-    private JButton registerStudent;
+    private JLabel nameLabel, emailLabel, phoneLabel;
+    private JTextField nameField, emailField, phoneField;
+    private JLabel nameErrorLabel, emailErrorLabel, phoneErrorLabel;
+    private JButton registerBtn;
 
     public StudentRegistrationFormPanel() {
-        idLabel = new JLabel("ID: ");
         nameLabel = new JLabel("Name: ");
-        passwordLabel = new JLabel("Password: ");
-        idField = new JTextField(10);
-        nameField = new JTextField(10);
-        passwordField = new JPasswordField(10);
-        registerStudent = new JButton("Get");
+        nameField = new JTextField(32);
+        nameErrorLabel = new JLabel();
+        nameErrorLabel.setForeground(Color.RED);
+
+        emailLabel = new JLabel("Email: ");
+        emailField = new JTextField(32);
+        emailErrorLabel = new JLabel(); 
+        emailErrorLabel.setForeground(Color.RED);
+
+        phoneLabel = new JLabel("Phone: ");
+        phoneField = new JTextField(32);
+        phoneErrorLabel = new JLabel();
+        phoneErrorLabel.setForeground(Color.RED);
+
+        registerBtn = new JButton("Register");
 
         // Set the border using BorderFactory
         Border innerBorder = BorderFactory.createTitledBorder("Registration");
@@ -35,56 +46,71 @@ class StudentRegistrationFormPanel extends JPanel {
         // First Row
         gc.gridx = 0;
         gc.gridy = 0;
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(0,0,5,0);
-        add(idLabel, gc);
-
-        gc.gridx = 1;
-        gc.gridy = 0;
         gc.anchor = GridBagConstraints.LINE_START;
-        add(idField, gc);
-
-        // Second Row
-        gc.gridx = 0;
-        gc.gridy = 1;
-        gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0,0,5,0);
         add(nameLabel, gc);
 
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 0;
         gc.anchor = GridBagConstraints.LINE_START;
         add(nameField, gc);
+
+        gc.gridx = 2;
+        gc.gridy = 0;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(nameErrorLabel, gc);
+
+        // Second Row
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0,0,5,0);
+        add(emailLabel, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(emailField, gc);
+
+        gc.gridx = 2;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(emailErrorLabel, gc);
 
         // Third Row
         gc.gridx = 0;
         gc.gridy = 2;
-        gc.anchor = GridBagConstraints.LINE_END;
-        add(passwordLabel, gc);
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(phoneLabel, gc);
 
         gc.gridx = 1;
         gc.gridy = 2;
-        gc.anchor = GridBagConstraints.LINE_END;
-        add(passwordField, gc);
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(phoneField, gc);
+
+        gc.gridx = 2;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(phoneErrorLabel, gc);
 
         // Fourth Row
         gc.gridx = 1;
         gc.gridy = 3;
         gc.anchor = GridBagConstraints.LINE_END;
-        add(registerStudent, gc);
+        add(registerBtn, gc);
 
         // add button event
-        registerStudent.addActionListener(new ActionListener() {
+        registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = idField.getText();
-                String name = nameField.getText();
-                String password = passwordField.getText();
-                String issue = "0";
-                boolean validate = !id.equals("") && !name.equals("") && !password.equals("");
-                if(!DB.isExistStudent(id) && validate) {
-                    DB.storeThisStudent(id, name, password, issue);
-                }
+                Validator validator = new Validator(); // need singleton
+                validator.validateText(nameField.getText(), "name").min(3).max(5);
+                validator.validateText(emailField.getText(), "email").min(7).max(5);
+                validator.validateText(phoneField.getText(), "phone").min(7).max(5);
+                Map<String, String> errors = validator.getErrors();
+                nameErrorLabel.setText(errors.get("name"));
+                emailErrorLabel.setText(errors.get("email"));
+                phoneErrorLabel.setText(errors.get("phone"));
             }
         });
     }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.db.Database;
 // import com.model.User;
 import com.scene.Home;
+import com.scene.StudentRegistration;
 // import com.scene.Librarian;
 // import com.dao.UserDAO;
 // import com.data.Validator;
@@ -25,7 +26,8 @@ public class App {
             //     System.out.println(user.getName());
             // }
             // Librarian librarian = new Librarian("Librarian");
-            Home home = new Home("Home");
+            // Home home = new Home("Home");
+            StudentRegistration register = new StudentRegistration("Registration");
         } else {
             System.out.println("Database may be in offline!");
         } 
